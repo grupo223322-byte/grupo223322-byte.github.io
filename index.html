@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sección de Reporte BI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Animación suave para cuando cambian las imágenes */
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-4 md:p-8 font-sans text-gray-800">
+
+    <!-- Contenedor-->
+    <div class="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+        
+        <!-- Cabecera -->
+        <div class="bg-gradient-to-r from-blue-900 to-blue-800 p-6 md:p-8 text-white">
+            <div class="flex items-center gap-3 mb-2">
+                <!-- Icono de Gráfico -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                <h2 class="text-2xl md:text-3xl font-bold">Dashboard Sum Vehículos</h2>
+            </div>
+            <p class="text-blue-100 max-w-2xl text-sm md:text-base">
+                Reporte de Power BI elaborado por el grupo 2 sobre la empresa Sum Vehículos
+            </p>
+        </div>
+
+        <!-- Navegación: Modificado a multi-línea (flex-wrap) -->
+        <div class="bg-gray-100 border-b border-gray-200 p-4">
+            <div class="flex flex-wrap gap-2" id="tab-container">
+                <!-- Inicio -->
+                <button onclick="cambiarVista('vista-inicio', this)" class="tab-btn active relative px-4 py-2 text-sm font-semibold rounded-lg bg-blue-600 text-white shadow-md transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                    Inicio
+                </button>
+                
+                <!-- Botón 2 -->
+                <button onclick="cambiarVista('vista-caso_negocio', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+                    Caso de negocio
+                </button>
+
+                <!-- Botón 3 -->
+                <button onclick="cambiarVista('vista-indicadores', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    Indicadores
+                </button>
+
+                <!-- Botón 4 -->
+                <button onclick="cambiarVista('vista-dashboard', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>
+                    Dashboard
+                </button>
+
+                <!-- Botón 5 -->
+                <button onclick="cambiarVista('vista-reporte', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    Reporte
+                </button>
+
+                <!-- Divisor visual para separar principales de las preguntas -->
+                <div class="w-full h-px bg-gray-300 my-1"></div>
+
+                <!-- Botón 6 -->
+                <button onclick="cambiarVista('vista-pregunta_1', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Pregunta 1
+                </button>
+
+                <!-- Botón 7 -->
+                <button onclick="cambiarVista('vista-pregunta_2', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Pregunta 2
+                </button>
+
+                <!-- Botón 8 -->
+                <button onclick="cambiarVista('vista-pregunta_3', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Pregunta 3
+                </button>
+
+                <!-- Botón 9 -->
+                <button onclick="cambiarVista('vista-pregunta_4', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Pregunta 4
+                </button> 
+
+                <!-- Botón 10 -->
+                <button onclick="cambiarVista('vista-pregunta_5', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Pregunta 5
+                </button> 
+
+                <!-- Botón 11 -->
+                <button onclick="cambiarVista('vista-pregunta_6', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Pregunta 6
+                </button>
+
+                <!-- Botón 12 -->
+                <button onclick="cambiarVista('vista-pregunta_7', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Pregunta 7
+                </button>
+
+                <!-- Botón 13 -->
+                <button onclick="cambiarVista('vista-pregunta_8', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Pregunta 8
+                </button>
+
+                <!-- Botón 14 -->
+                <button onclick="cambiarVista('vista-pregunta_9', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Pregunta 9
+                </button> 
+
+                <!-- Botón 15 -->
+                <button onclick="cambiarVista('vista-pregunta_10', this)" class="tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    Pregunta 10
+                </button> 
+            </div>
+        </div>
+
+        <!-- Área de visualización de las imágenes -->
+        <div class="relative bg-gray-200 p-2 md:p-6 flex justify-center items-center min-h-[400px] md:min-h-[600px] group">
+            
+            <button onclick="abrirPantallaCompleta()" class="absolute top-4 right-4 z-10 bg-gray-900/70 hover:bg-gray-900 text-white p-2 rounded-lg backdrop-blur-sm transition-all flex items-center gap-2 md:opacity-0 md:group-hover:opacity-100 shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                </svg>
+                <span class="text-sm hidden md:inline font-medium">Pantalla Completa</span>
+            </button>
+
+            <!-- Imagenes BI -->
+            <img id="vista-inicio" class="reporte-img fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="Inicio.png" alt="Inicio">
+            <img id="vista-caso_negocio" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="caso_negocio.png" alt="Caso de Negocio">
+            <img id="vista-indicadores" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="indicadores.png" alt="Indicadores">
+            <img id="vista-dashboard" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="Dashboard.png" alt="Dashboard">
+            <img id="vista-reporte" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="reporte.png" alt="Reporte">
+
+            <!-- Imagenes Preguntas -->
+            <img id="vista-pregunta_1" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="pregunta_1.png" alt="Pregunta 1">
+            <img id="vista-pregunta_2" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="pregunta_2.png" alt="Pregunta 2">
+            <img id="vista-pregunta_3" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="pregunta_3.png" alt="Pregunta 3">
+            <img id="vista-pregunta_4" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="pregunta_4.png" alt="Pregunta 4">
+            <img id="vista-pregunta_5" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="pregunta_5.png" alt="Pregunta 5">
+            <img id="vista-pregunta_6" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="pregunta_6.png" alt="Pregunta 6">
+            <img id="vista-pregunta_7" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="pregunta_7.png" alt="Pregunta 7">
+            <img id="vista-pregunta_8" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="pregunta_8.png" alt="Pregunta 8">
+            <img id="vista-pregunta_9" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="pregunta_9.png" alt="Pregunta 9">
+            <img id="vista-pregunta_10" class="reporte-img hidden fade-in w-full h-auto object-contain rounded-lg shadow-md max-h-[700px]" src="pregunta_10.png" alt="Pregunta 10">
+        </div>
+        
+        <div class="bg-white p-4 text-center text-sm text-gray-500 border-t border-gray-100">
+            Imagenes del tablero de Power BI | Elaborado por el grupo 2 para el curso Analytics and Data Visualization with Power BI
+        </div>
+    </div>
+
+    <!-- Script modificado para las nuevas clases de botones -->
+    <script>
+        function cambiarVista(idVista, btnElement) {
+            // 1. Ocultar todas las imágenes
+            const imagenes = document.querySelectorAll('.reporte-img');
+            imagenes.forEach(img => {
+                img.classList.add('hidden');
+                img.classList.remove('fade-in');
+                void img.offsetWidth; // trigger reflow para reiniciar animación
+                img.classList.add('fade-in');
+            });
+
+            // 2. Mostrar la imagen seleccionada
+            document.getElementById(idVista).classList.remove('hidden');
+
+            // 3. Resetear estilos de todos los botones a INACTIVO
+            const botones = document.querySelectorAll('.tab-btn');
+            botones.forEach(btn => {
+                btn.className = "tab-btn relative px-4 py-2 text-sm font-semibold rounded-lg bg-white text-gray-600 border border-gray-300 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center gap-2";
+            });
+
+            // 4. Aplicar estilo de ACTIVO al botón clickeado
+            btnElement.className = "tab-btn active relative px-4 py-2 text-sm font-semibold rounded-lg bg-blue-600 text-white shadow-md transition-colors flex items-center gap-2";
+        }
+
+        function abrirPantallaCompleta() {
+            const imagenActiva = document.querySelector('.reporte-img:not(.hidden)');
+            if (imagenActiva) {
+                if (imagenActiva.requestFullscreen) {
+                    imagenActiva.requestFullscreen();
+                } else if (imagenActiva.webkitRequestFullscreen) {
+                    imagenActiva.webkitRequestFullscreen();
+                } else if (imagenActiva.msRequestFullscreen) {
+                    imagenActiva.msRequestFullscreen();
+                }
+            }
+        }
+    </script>
+</body>
+</html>
